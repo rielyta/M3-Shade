@@ -9,8 +9,7 @@
 ### 1. **Find Your Shade**
 - Upload foto wajah untuk analisis warna kulit otomatis
 - Ekstraksi warna dominan menggunakan K-Means Clustering
-- Rekomendasi top 10 produk makeup terdekat berdasarkan warna
-- Informasi detail: brand, shade name, hex color, undertone
+- Rekomendasi top 3 produk makeup terdekat berdasarkan warna
 
 ### 2. **Chatbot Assistant**
 - AI chatbot berbahasa Indonesia powered by Mistral API
