@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Find Your Shade | M3-Shade</title>
+    <meta name="description" content="Upload foto wajah Anda untuk menemukan shade makeup yang sempurna">
+    <link rel="stylesheet" href="style/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,200..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <header>
+      <nav>
+        <li>
+          <img src="assets/images/white-logo.png" alt="logo" class="white-logo"/>
+        </li>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="find-your-shade.html">Find Your Shade</a></li>
+        <li><a href="skin-guide.html">Skin Guide</a></li>
+        <li class="chatbot-icon">
+          <a href="chatbot.html" title="Chatbot Assistant">💬</a>
+        </li>
+      </nav>
+    </header>
+
+    <main class="fys-main">
+      <h1>Find Your Shade</h1>
+
+      <div class="fys-wrapper">
+
+        <div class="fys-camera-col">
+          <div class="fys-camera-box" id="camera-box">
+            <input type="file" id="image-input" accept="image/*" style="display:none;">
+            <img id="preview-image" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:1rem;">
+            <div class="camera-placeholder" id="camera-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </div>
+          </div>
+          <button class="btn-take-picture" id="upload-button" onclick="document.getElementById('image-input').click()">
+            Take Picture
+          </button>
+        </div>
+
+        <div class="fys-result-box" id="result-box">
+          <h2 class="result-title">Result</h2>
+          <div id="result-content"></div>
+        </div>
+
+      </div>
+
+      <section class="fys-guide">
+        <h2 class="guide-title">Guide</h2>
+        <div id="guide-content"></div>
+      </section>
+
+      <section id="feedback">
+        <h3>Feedback</h3>
+        <form class="feedback-form">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="" required/>
+          <label for="feedbackText">Feedback</label>
+          <textarea id="feedbackText" placeholder="" required></textarea>
+          <button type="submit" class="btn-submit-feedback">Submit</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>Email</p>
+          <p>Instagram</p>
+        </div>
+
+        <div class="footer-copyright">
+          <p>@copy 2026 M3-Shade. All Rights Reserved.</p>
+        </div>
+
+        <div class="footer-logo">
+          <img src="assets/images/white-logo.png" alt="M3-Shade Logo" class="white-logo"/>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="scripts/uiController.js"></script>
+    <script>
+      const imageInput = document.getElementById('image-input');
+      const previewImage = document.getElementById('preview-image');
+      const cameraPlaceholder = document.getElementById('camera-placeholder');
+
+      if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              previewImage.src = event.target.result;
+              previewImage.style.display = 'block';
+              cameraPlaceholder.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    </script>
+  </body>
+
+</html>

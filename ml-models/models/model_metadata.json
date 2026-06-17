@@ -1,0 +1,100 @@
+{
+  "model_type": "KNeighborsClassifier",
+  "optimal_k": 1,
+  "metric": "euclidean",
+  "weights": "distance",
+  "features": [
+    "R",
+    "G",
+    "B",
+    "H",
+    "S",
+    "L",
+    "rb_diff",
+    "gb_diff",
+    "rg_diff",
+    "luminance"
+  ],
+  "target": "undertone",
+  "classes": [
+    "Cool",
+    "Neutral",
+    "Warm"
+  ],
+  "train_size": 7651,
+  "test_size": 1913,
+  "test_accuracy": 0.9692,
+  "cv_k_scores": {
+    "1": 0.9699,
+    "2": 0.9612,
+    "3": 0.9661,
+    "4": 0.9626,
+    "5": 0.9638,
+    "6": 0.9642,
+    "7": 0.9664,
+    "8": 0.9661,
+    "9": 0.9676,
+    "10": 0.9668,
+    "11": 0.9673,
+    "12": 0.9675,
+    "13": 0.9675,
+    "14": 0.9681,
+    "15": 0.9675,
+    "16": 0.9656,
+    "17": 0.9659,
+    "18": 0.9651,
+    "19": 0.9642,
+    "20": 0.9643
+  },
+  "classification_report": {
+    "Cool": {
+      "precision": 0.9167,
+      "recall": 0.9218,
+      "f1-score": 0.9192,
+      "support": 179.0
+    },
+    "Neutral": {
+      "precision": 0.9755,
+      "recall": 0.971,
+      "f1-score": 0.9732,
+      "support": 1105.0
+    },
+    "Warm": {
+      "precision": 0.9731,
+      "recall": 0.9793,
+      "f1-score": 0.9762,
+      "support": 629.0
+    },
+    "macro avg": {
+      "precision": 0.9551,
+      "recall": 0.9574,
+      "f1-score": 0.9562,
+      "support": 1913.0
+    },
+    "weighted avg": {
+      "precision": 0.9692,
+      "recall": 0.9692,
+      "f1-score": 0.9692,
+      "support": 1913.0
+    }
+  },
+  "dataset_info": {
+    "source": "foundation_shade.csv",
+    "total_records": 9564,
+    "brands": 105,
+    "undertone_dist": {
+      "Neutral": 5524,
+      "Cool": 895,
+      "Warm": 3145
+    },
+    "skintone_dist": {
+      "Very Fair": 1956,
+      "Fair": 2521,
+      "Light Medium": 1808,
+      "Medium": 1223,
+      "Deep": 706,
+      "Very Deep": 334,
+      "Tan": 1016
+    }
+  }
+}

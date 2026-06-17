@@ -1,0 +1,250 @@
+{
+  "model_info": {
+    "type": "KNeighborsClassifier",
+    "k": 1,
+    "metric": "euclidean",
+    "weights": "distance",
+    "features": [
+      "R",
+      "G",
+      "B",
+      "H",
+      "S",
+      "L",
+      "rb_diff",
+      "gb_diff",
+      "rg_diff",
+      "luminance"
+    ],
+    "dataset": "foundation_shade.csv (9845 shades)"
+  },
+  "evaluation": {
+    "full_dataset_accuracy": 0.9938,
+    "cohen_kappa": 0.9888,
+    "cv_10fold_mean": 0.9739,
+    "cv_10fold_std": 0.0038,
+    "cv_10fold_scores": [
+      0.9781,
+      0.9749,
+      0.976,
+      0.9739,
+      0.9697,
+      0.9759,
+      0.9759,
+      0.9644,
+      0.9759,
+      0.9738
+    ]
+  },
+  "classification_report": {
+    "Cool": {
+      "precision": 0.9833,
+      "recall": 0.9844,
+      "f1-score": 0.9838,
+      "support": 895.0
+    },
+    "Neutral": {
+      "precision": 0.9951,
+      "recall": 0.9942,
+      "f1-score": 0.9947,
+      "support": 5524.0
+    },
+    "Warm": {
+      "precision": 0.9946,
+      "recall": 0.9959,
+      "f1-score": 0.9952,
+      "support": 3145.0
+    },
+    "macro avg": {
+      "precision": 0.991,
+      "recall": 0.9915,
+      "f1-score": 0.9912,
+      "support": 9564.0
+    },
+    "weighted avg": {
+      "precision": 0.9938,
+      "recall": 0.9938,
+      "f1-score": 0.9938,
+      "support": 9564.0
+    }
+  },
+  "metrics_manual": {
+    "Cool": {
+      "TP": 881,
+      "FP": 15,
+      "FN": 14,
+      "precision": 0.9833,
+      "recall": 0.9844,
+      "f1_score": 0.9838,
+      "support": 895
+    },
+    "Neutral": {
+      "TP": 5492,
+      "FP": 27,
+      "FN": 32,
+      "precision": 0.9951,
+      "recall": 0.9942,
+      "f1_score": 0.9947,
+      "support": 5524
+    },
+    "Warm": {
+      "TP": 3132,
+      "FP": 17,
+      "FN": 13,
+      "precision": 0.9946,
+      "recall": 0.9959,
+      "f1_score": 0.9952,
+      "support": 3145
+    },
+    "macro avg": {
+      "precision": 0.991,
+      "recall": 0.9915,
+      "f1_score": 0.9912
+    },
+    "weighted avg": {
+      "precision": 0.9938,
+      "recall": 0.9938,
+      "f1_score": 0.9938
+    }
+  },
+  "confusion_matrix": {
+    "labels": [
+      "Cool",
+      "Neutral",
+      "Warm"
+    ],
+    "matrix": [
+      [
+        881,
+        14,
+        0
+      ],
+      [
+        15,
+        5492,
+        17
+      ],
+      [
+        0,
+        13,
+        3132
+      ]
+    ]
+  },
+  "per_brand_accuracy": {
+    "AMOREPACIFIC": 1.0,
+    "About Face": 1.0,
+    "Ami Colé": 1.0,
+    "Anastasia Beverly Hills": 1.0,
+    "Armani Beauty": 1.0,
+    "Au Naturale": 1.0,
+    "BASMA": 1.0,
+    "BLK/OPL": 1.0,
+    "Beautyblender": 1.0,
+    "Bobbi Brown": 1.0,
+    "Burt's Bees": 1.0,
+    "Charlotte Tilbury": 1.0,
+    "Cover FX": 1.0,
+    "DIOR": 1.0,
+    "FLOWER Beauty": 1.0,
+    "Erborian": 1.0,
+    "Elcie Cosmetics": 1.0,
+    "Fara Homidi": 1.0,
+    "Exa": 1.0,
+    "Juice Beauty": 1.0,
+    "Jones Road": 1.0,
+    "ISAMAYA": 1.0,
+    "Guerlain": 1.0,
+    "Glossier": 1.0,
+    "Givenchy": 1.0,
+    "J.Cat Beauty": 1.0,
+    "Iris&Romeo": 1.0,
+    "NATASHA DENONA": 1.0,
+    "Range Beauty": 1.0,
+    "REFY": 1.0,
+    "MERIT": 1.0,
+    "MAKE Beauty": 1.0,
+    "Made By Mitchell": 1.0,
+    "MACRENE actives": 1.0,
+    "Lancôme": 1.0,
+    "La Mer": 1.0,
+    "Kylie Cosmetics": 1.0,
+    "Kulfi": 1.0,
+    "Kosas": 1.0,
+    "Koh Gen Do": 1.0,
+    "KVD Beauty": 1.0,
+    "smashbox": 1.0,
+    "caliray": 1.0,
+    "versed": 1.0,
+    "ciele": 1.0,
+    "bareMinerals": 1.0,
+    "ZOEVA": 1.0,
+    "Winky Lux": 1.0,
+    "Youthforia": 1.0,
+    "Tower 28 Beauty": 1.0,
+    "ULTA Beauty Collection": 1.0,
+    "UOMA Beauty": 1.0,
+    "Tom Ford": 1.0,
+    "Summer Fridays": 1.0,
+    "Sarah Creal": 1.0,
+    "ONE/SIZE by Patrick Starrr": 1.0,
+    "NUDESTIX": 1.0,
+    "Pacifica": 1.0,
+    "Perricone MD": 1.0,
+    "PAT McGRATH LABS": 1.0,
+    "Yves Saint Laurent": 1.0,
+    "Urban Decay": 1.0,
+    "Wander Beauty": 1.0,
+    "W3LL PEOPLE": 1.0,
+    "WYN Beauty": 1.0,
+    "SEPHORA COLLECTION": 1.0,
+    "Revlon": 1.0,
+    "Fenty Beauty by Rihanna": 0.9973,
+    "Maybelline": 0.9959,
+    "CHANEL": 0.9957,
+    "e.l.f. Cosmetics": 0.9953,
+    "KIKO Milano": 0.9931,
+    "NYX Professional Makeup": 0.9931,
+    "Estée Lauder": 0.9926,
+    "Saie": 0.9921,
+    "NARS": 0.9918,
+    "Wet n Wild": 0.9915,
+    "MAC Cosmetics": 0.9909,
+    "Morphe": 0.9907,
+    "L'Oréal": 0.9899,
+    "milani": 0.9898,
+    "Huda Beauty": 0.9894,
+    "HAUS LABS BY LADY GAGA": 0.9878,
+    "Makeup Revolution": 0.9877,
+    "Tirtire": 0.9875,
+    "Gucci": 0.9875,
+    "MAKEUP BY MARIO": 0.9859,
+    "Too Faced": 0.9857,
+    "Juvia's Place": 0.9854,
+    "Hourglass": 0.9846,
+    "Rare Beauty by Selena Gomez": 0.9839,
+    "R.E.M Beauty": 0.9833,
+    "Danessa Myricks Beauty": 0.9829,
+    "MAKE UP FOR EVER": 0.9821,
+    "Westman Atelier": 0.9821,
+    "ColourPop": 0.981,
+    "jane iredale": 0.9808,
+    "Milk Makeup": 0.9808,
+    "Dose Of Colors": 0.9796,
+    "Iconic London": 0.9787,
+    "rms beauty": 0.9667,
+    "Joans Road": 0.96,
+    "mented": 0.9583,
+    "Supergoop!": 0.9286,
+    "Prada Beauty": 0.9091
+  },
+  "per_skintone_accuracy": {
+    "Very Fair": 0.9928,
+    "Fair": 0.9933,
+    "Light Medium": 0.9961,
+    "Medium": 0.9967,
+    "Tan": 0.9951,
+    "Deep": 0.9943,
+    "Very Deep": 0.976
+  }
+}

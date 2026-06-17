@@ -1,0 +1,8 @@
+
+  Confusion Matrix (baris=actual, kolom=predicted):
+
+                  Cool   Neutral      Warm
+  ----------------------------------------
+  Cool             881        14         0
+  Neutral           15      5492        17
+  Warm               0        13      3132

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="M3-Shade Chatbot - Konsultasi makeup dan skin tone dengan AI">
+    <title>Chatbot Konsultasi | M3-Shade</title>
+    <link rel="stylesheet" href="style/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,200..900&display=swap" rel="stylesheet">
+
+    <style>
+        .chatbot-page {
+            background-color: #F9F8EA;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbot-page main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem 3rem;
+        }
+        .chatbot-page h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #040404;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .chat-outer-box {
+            width: 100%;
+            max-width: 52rem;
+            border: 0.18rem solid #8B6F3A;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: #F9F8EA;
+        }
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            padding: 1rem 1.2rem 0.75rem;
+            border-bottom: 0.1rem solid #d6cfc0;
+            background-color: #F9F8EA;
+        }
+        .suggestion-chip {
+            padding: 0.45rem 1rem;
+            background-color: #F9F8EA;
+            border: 0.1rem solid #8B6F3A;
+            color: #6b4f2a;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: "Source Serif 4", serif;
+            transition: all 0.2s ease;
+        }
+        .suggestion-chip:hover {
+            background-color: #8B6F3A;
+            color: #F9F8EA;
+        }
+        #messages-container {
+            flex: 1;
+            min-height: 32rem;
+            max-height: 38rem;
+            overflow-y: auto;
+            padding: 1.5rem 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        #messages-container::-webkit-scrollbar { width: 6px; }
+        #messages-container::-webkit-scrollbar-track { background: transparent; }
+        #messages-container::-webkit-scrollbar-thumb { background: #c6b89a; border-radius: 4px; }
+        .message {
+            display: flex;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .message-bot  { justify-content: flex-start; }
+        .message-user { justify-content: flex-end; }
+        .message-bubble {
+            max-width: 62%;
+            padding: 1rem 1.2rem;
+            border-radius: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+            font-family: "Source Serif 4", serif;
+            text-align: justify;
+        }
+        .message-bot .message-bubble {
+            background-color: #C9A84C;
+            color: #040404;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .message-user .message-bubble {
+            background-color: #E9026E;
+            color: #F9F8EA;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 4px 0;
+            align-items: center;
+        }
+        .typing-indicator span {
+            width: 8px; height: 8px;
+            background-color: #040404;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+        .keywords-display {
+            font-family: "Source Serif 4", serif;
+            font-size: 0.78rem;
+            color: #8B6F3A;
+            padding: 0 0.2rem;
+        }
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1rem;
+            border-top: 0.1rem solid #d6cfc0;
+            background-color: #F9F8EA;
+        }
+        #message-input {
+            flex: 1;
+            padding: 0.85rem 1.2rem;
+            border: 0.12rem solid #8B6F3A;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-family: "Source Serif 4", serif;
+            background-color: #F9F8EA;
+            color: #040404;
+            outline: none;
+        }
+        #message-input::placeholder { color: #aaa; }
+        #message-input:focus { border-color: #E9026E; }
+        #send-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem;
+            font-size: 1.5rem;
+            color: #040404;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        #send-button:hover { color: #E9026E; }
+        #send-button:disabled { color: #ccc; cursor: not-allowed; }
+        .chatbot-page footer {
+            background-color: #040404;
+            color: #F9F8EA;
+            padding: 2rem;
+        }
+        .chatbot-page .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+        .chatbot-page .footer-section h3 { color: #F9F8EA; margin: 0 0 0.5rem; }
+        .chatbot-page .footer-section p  { margin: 0.25rem 0; font-size: 0.9rem; font-weight: bold; }
+        .chatbot-page .footer-copyright  { font-size: 0.9rem; align-self: flex-end; }
+        .chatbot-page .footer-logo .white-logo { height: 1.5rem; margin: 0; }
+        @media screen and (max-width: 640px) {
+            .chatbot-page h1 { font-size: 2.2rem; }
+            .message-bubble { max-width: 85%; }
+            #messages-container { min-height: 22rem; }
+        }
+    </style>
+</head>
+<body class="chatbot-page">
+
+    <header>
+        <nav>
+            <li><img src="assets/images/white-logo.png" alt="logo" class="white-logo"/></li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="find-your-shade.html">Find Your Shade</a></li>
+            <li><a href="skin-guide.html">Skin Guide</a></li>
+            <li class="chatbot-icon active"><a href="chatbot.html" title="Chatbot Assistant">💬</a></li>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Have Any Question</h1>
+
+        <div class="chat-outer-box">
+            <div class="chat-suggestions">
+                <button class="suggestion-chip" onclick="sendSuggestion('Apa itu undertone kulit?')">Apa itu undertone kulit?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Bagaimana cara menentukan undertone saya?')">Cara menentukan undertone?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Apa perbedaan cool, warm, dan neutral undertone?')">Cool vs Warm vs Neutral?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Foundation apa yang cocok untuk kulit berminyak?')">Foundation untuk kulit berminyak?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Bagaimana memilih shade foundation yang tepat?')">Cara pilih shade foundation?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Apa itu Fitzpatrick scale?')">Apa itu Fitzpatrick scale?</button>
+            </div>
+
+            <div id="messages-container"></div>
+
+            <div class="chat-input-container">
+                <input type="text" id="message-input" placeholder="Write Your Message Here" autocomplete="off"/>
+                <button id="send-button" title="Send">&#9658;</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email</p>
+                <p>Instagram</p>
+            </div>
+            <div class="footer-copyright">
+                <p>@copy 2026 M3-Shade. All Rights Reserved.</p>
+            </div>
+            <div class="footer-logo">
+                <img src="assets/images/white-logo.png" alt="M3-Shade Logo" class="white-logo"/>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    const STOPWORDS = new Set([
+        'apa','itu','ini','yang','dan','di','ke','dari','untuk','dengan',
+        'adalah','ada','tidak','bisa','cara','bagaimana','saya','kamu',
+        'anda','nya','lah','kah','pun','juga','atau','tapi','namun',
+        'sudah','belum','akan','sedang','harus','mau','ingin','dong',
+        'sangat','lebih','paling','banget','sekali','ya','yuk','boleh',
+        'gimana','kayak','kaya','gitu','gini','tuh','deh','sih','nih',
+        'mau','buat','supaya','agar','kalau','jika','apakah','apakah'
+    ]);
+
+    function tokenize(text) {
+        return text
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9\s]/g, '')
+            .split(/\s+/)
+            .filter(t => t.length > 1);
+    }
+
+    function extractKeywords(text) {
+        return tokenize(text).filter(t => !STOPWORDS.has(t));
+    }
+
+    const TOPIC_MAP = {
+        undertone:   ['undertone','warm','cool','neutral','hangat','sejuk','warna','dasar','nuansa'],
+        detection:   ['deteksi','tentukan','cek','tes','test','mengetahui','tahu','tau','lihat','menentukan','mendeteksi'],
+        foundation:  ['foundation','shade','bedak','cushion','concealer','bb','cc','cocok','match','sesuai','pilih','memilih'],
+        fitzpatrick: ['fitzpatrick','scale','skala','type','tipe','phototype'],
+        oily_skin:   ['berminyak','oily','minyak','pore','pori','mattify','matte','glossy','kilap'],
+        dry_skin:    ['kering','dry','dehidrasi','lembab','moisturizer','hydrating','bersisik'],
+        skin_type:   ['kulit','skin','normal','kombinasi','combination','sensitif','sensitive','jenis'],
+        application: ['pakai','aplikasi','brush','kuas','blender','teknik','tips','mengaplikasikan','pemakaian'],
+        difference:  ['perbedaan','beda','bedanya','versus','vs','perbandingan','antara'],
+    };
+
+    function extractTopics(keywords) {
+        const scores = {};
+        for (const [topic, kws] of Object.entries(TOPIC_MAP)) {
+            scores[topic] = keywords.filter(k => kws.includes(k)).length;
+        }
+        return Object.entries(scores)
+            .filter(([, s]) => s > 0)
+            .sort(([, a], [, b]) => b - a)
+            .map(([t]) => t);
+    }
+
+
+    function classifyIntent(keywords, topics) {
+        const tp = new Set(topics);
+        const kw = new Set(keywords);
+
+        if (tp.has('fitzpatrick'))                                return 'fitzpatrick';
+        if (tp.has('undertone') && tp.has('detection'))          return 'undertone_detect';
+        if (tp.has('undertone') && tp.has('difference'))         return 'undertone_compare';
+        if (tp.has('undertone'))                                  return 'undertone_info';
+        if (tp.has('oily_skin'))                                  return 'skin_oily';
+        if (tp.has('dry_skin'))                                   return 'skin_dry';
+        if (tp.has('foundation') || tp.has('skin_type'))         return 'foundation_tips';
+        if (tp.has('application'))                               return 'application_tips';
+        if (kw.has('halo') || kw.has('hai') || kw.has('hello') || kw.has('hi') || kw.has('hey'))
+                                                                  return 'greeting';
+        return 'fallback';
+    }
+
+    const RESPONSES = {
+        greeting:
+            'Halo! Saya M3-Shade Assistant 💄 Senang berkenalan denganmu!\n\nSaya siap membantu kamu menemukan shade makeup yang sempurna. Tanyakan apa saja tentang undertone, foundation, Fitzpatrick scale, atau tips kecantikan lainnya!',
+
+        undertone_info:
+            'Undertone adalah warna dasar yang bersembunyi di bawah permukaan kulit — berbeda dengan warna kulit yang terlihat langsung.\n\n🌸 Cool undertone: ada nuansa kebiruan atau kemerahan/pink. Cocok dengan shade bernuansa pink atau rosy.\n\n🌻 Warm undertone: ada nuansa kekuningan, peach, atau keemasan. Cocok dengan shade bernuansa kuning atau golden.\n\n🤍 Neutral undertone: campuran cool dan warm yang seimbang. Biasanya cocok dengan hampir semua shade.',
+
+        undertone_compare:
+            'Perbedaan ketiga jenis undertone:\n\n🌸 Cool: kulit punya nuansa pink, merah, atau kebiruan. Urat nadi terlihat kebiruan/ungu. Cocok dengan silver, warna jewel tones.\n\n🌻 Warm: kulit punya nuansa kuning, peach, atau keemasan. Urat nadi terlihat kehijauan. Cocok dengan gold, warna earth tones.\n\n🤍 Neutral: campuran keduanya. Urat nadi terlihat campuran biru-hijau. Cocok dengan rose gold, paling fleksibel dalam memilih shade.',
+
+        undertone_detect:
+            'Ada beberapa cara mudah mendeteksi undertone-mu:\n\n💎 Metode urat nadi: Lihat urat nadi di pergelangan tangan di cahaya natural.\n→ Kebiruan/ungu = cool undertone\n→ Kehijauan = warm undertone\n→ Campuran keduanya = neutral\n\n☀️ Metode sinar matahari: Apakah kulitmu cenderung memerah atau menguning saat terpapar matahari?\n→ Memerah/terbakar = cool\n→ Menguning/tan keemasan = warm\n\n💍 Metode perhiasan: Silver lebih cocok → cool. Gold lebih cocok → warm. Keduanya cocok → neutral.',
+
+        fitzpatrick:
+            'Fitzpatrick Scale adalah sistem klasifikasi warna kulit berdasarkan respons terhadap sinar UV, dikembangkan oleh Thomas Fitzpatrick (1975):\n\nType I: Sangat putih — selalu terbakar, tidak pernah tan\nType II: Putih — mudah terbakar, jarang tan\nType III: Putih-medium — kadang terbakar, bisa tan\nType IV: Medium-olive — jarang terbakar, mudah tan\nType V: Coklat — sangat jarang terbakar, sangat mudah tan\nType VI: Coklat gelap–hitam — tidak pernah terbakar\n\nDalam M3-Shade, skala ini membantu mempersempit rentang shade foundation yang paling cocok untukmu.',
+
+        foundation_tips:
+            'Tips memilih shade foundation yang tepat:\n\n1️⃣ Kenali undertone dulu — ini menentukan warna dasar foundation agar terlihat natural.\n\n2️⃣ Tes di garis rahang, bukan di tangan — warna kulit tangan sering berbeda dengan wajah.\n\n3️⃣ Cek di cahaya natural (sinar matahari) — pencahayaan dalam toko bisa menipu.\n\n4️⃣ Shade yang tepat akan "menghilang" di kulit — tidak terlalu terang dan tidak terlalu gelap.\n\n5️⃣ Gunakan fitur Find Your Shade di website ini untuk rekomendasi otomatis berdasarkan fotomu! 💡',
+
+        skin_oily:
+            'Untuk kulit berminyak, pilih foundation dengan formula:\n\n✅ Matte atau satin finish — mengurangi kilap sepanjang hari\n✅ Oil-free / non-comedogenic — tidak menyumbat pori\n✅ Water-based atau powder foundation — lebih ringan\n✅ Kandungan niacinamide atau salicylic acid membantu kontrol minyak\n\n❌ Hindari formula dewy/luminous atau berbasis minyak\n\n💡 Shade tips: Kulit berminyak cenderung oksidasi (foundation jadi lebih gelap setelah beberapa jam) — coba pilih 1 shade lebih terang.',
+
+        dry_skin:
+            'Untuk kulit kering, pilih foundation dengan formula:\n\n✅ Dewy atau luminous finish — efek glowing dan segar\n✅ Hydrating/moisturizing — mengandung hyaluronic acid atau glycerin\n✅ Liquid atau cushion foundation — lebih melembabkan\n✅ Serum foundation — ekstra nutrisi\n\n❌ Hindari powder foundation atau formula matte — bisa cakey dan menonjolkan area kering\n\n💡 Selalu gunakan moisturizer sebelum foundation untuk hasil yang lebih mulus!',
+
+        application_tips:
+            'Tips mengaplikasikan foundation agar hasilnya natural:\n\n🥚 Beauty blender (lembap): Tepuk-tepuk (jangan digosok) → hasil natural dan seamless\n\n🖌️ Kuas flat: Sapukan melingkar → coverage lebih penuh\n\n🖐️ Jari: Kehangatan jari bantu foundation menyatu → cocok untuk formula ringan\n\nUrutan aplikasi:\n1. Skincare + primer\n2. Concealer (area bermasalah)\n3. Foundation (tipis berlapis)\n4. Setting powder / setting spray\n\nKunci: mulai tipis, tambahkan sesuai kebutuhan!',
+
+        fallback:
+            'Maaf, saya belum bisa menjawab pertanyaan itu 🙏\n\nSaya spesialis di topik:\n• Undertone kulit (cool, warm, neutral)\n• Cara mendeteksi undertone\n• Perbedaan jenis undertone\n• Fitzpatrick Scale\n• Tips memilih shade foundation\n• Foundation untuk kulit berminyak atau kering\n• Teknik aplikasi makeup\n\nCoba tanyakan salah satu topik di atas, atau klik tombol saran di bagian atas! 💄'
+    };
+
+    const messagesContainer = document.getElementById('messages-container');
+    const messageInput      = document.getElementById('message-input');
+    const sendButton        = document.getElementById('send-button');
+
+    function appendMessage(role, text) {
+        const div    = document.createElement('div');
+        div.className = `message message-${role}`;
+        const bubble  = document.createElement('div');
+        bubble.className = 'message-bubble';
+        bubble.innerHTML = text.replace(/\n/g, '<br>');
+        div.appendChild(bubble);
+        messagesContainer.appendChild(div);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function appendTyping() {
+        const div = document.createElement('div');
+        div.className = 'message message-bot';
+        div.id = 'typing-indicator';
+        div.innerHTML = `<div class="message-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+        messagesContainer.appendChild(div);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function removeTyping() {
+        const el = document.getElementById('typing-indicator');
+        if (el) el.remove();
+    }
+
+    function appendKeywords(keywords) {
+        if (!keywords.length) return;
+        const el = document.createElement('div');
+        el.className = 'keywords-display';
+        el.textContent = `🔍 Kata kunci terdeteksi: ${keywords.join(', ')}`;
+        messagesContainer.appendChild(el);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function processMessage(text) {
+        const keywords = extractKeywords(text);
+        const topics   = extractTopics(keywords);
+        const intent   = classifyIntent(keywords, topics);
+        const response = RESPONSES[intent] || RESPONSES.fallback;
+        return { response, keywords, topics, intent };
+    }
+
+    function sendMessage(text) {
+        text = text.trim();
+        if (!text) return;
+
+        appendMessage('user', text);
+        messageInput.value  = '';
+        sendButton.disabled = true;
+        appendTyping();
+
+        setTimeout(() => {
+            removeTyping();
+            const { response, keywords } = processMessage(text);
+            appendMessage('bot', response);
+            appendKeywords(keywords);
+            sendButton.disabled = false;
+            messageInput.focus();
+        }, 700);
+    }
+
+    sendButton.addEventListener('click', () => sendMessage(messageInput.value));
+    messageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage(messageInput.value);
+        }
+    });
+
+    function sendSuggestion(text) {
+        messageInput.value = text;
+        sendMessage(text);
+    }
+
+    window.addEventListener('load', () => {
+        appendMessage('bot', 'Halo! Saya M3-Shade Assistant 💄 Saya siap membantu kamu menemukan shade makeup yang sempurna. Tanyakan apa saja tentang undertone, foundation, atau tips kecantikan!');
+    });
+    </script>
+</body>
+</html>

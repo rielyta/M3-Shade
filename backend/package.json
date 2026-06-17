@@ -1,0 +1,37 @@
+{
+  "name": "m3-shade-backend",
+  "version": "1.0.0",
+  "description": "M3-Shade Backend - Multimodal Makeup Matcher API",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "mocha tests/**/*.test.js"
+  },
+  "keywords": [
+    "makeup",
+    "ml",
+    "nlp",
+    "knn",
+    "recommendation"
+  ],
+  "author": "M3-Shade Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
